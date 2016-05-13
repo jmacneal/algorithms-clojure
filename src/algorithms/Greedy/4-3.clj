@@ -1,10 +1,10 @@
 (ns algorithms.Greedy.4-3
   (:gen-class))
 
-(defn -main
-  "I don't do a whole lot ... yet."
-  [& args]
-  (println "Hello, World!"))
+;; (defn -main
+;;   "I don't do a whole lot ... yet."
+;;   [& args]
+;;   (println "Hello, World!"))
 
 
 ;;; Problem: Maximize Value of shipment given items of weight W, value V
@@ -46,9 +46,19 @@
               (- bftb2 bftb1)))]
     (sort-by identity comp-btfb items)))
 
+(defn calc-val
+  "Calculate the value of a list of items"
+  [items]
+  (reduce + (map second items)))
 
 (defn greedy-knapsack
-  "takes an unsorted list of items and returns the highest-value subset possible"
+  "takes an sorted list of items and returns the highest-value subset possible"
   [items weight-capacity]
-  (let [sorted-items (sort-by-bftb items) total-weight 0]
-    (while ())))
+  (let [w (first (first items)) front (first items) tail (rest items)]
+    (cond
+      (empty? items) []
+      (zero? weight-capacity) []
+      (>= weight-capacity w) (cons front (greedy-knapsack tail (- weight-capacity w)))
+      :else (greedy-knapsack tail weight-capacity))))
+
+
